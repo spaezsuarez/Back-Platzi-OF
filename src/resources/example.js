@@ -8,6 +8,6 @@ const question = {
 
 };
 
-const questions = new Array(3).fill(question);
+const questions = [question];
 
 module.exports = questions;
