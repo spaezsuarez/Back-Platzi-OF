@@ -29,8 +29,13 @@ router.post('/:id/respuestas',questionMiddleWare,userMiddleWare,(req,res) => {
     answer.createdAt = new Date();
     answer.user = req.user;
     question.respuestas.unshift(answer);
-
-    res.status(201).json(answer);
+    questions.forEach((pregunta,indice) => {
+        if(question.createdAt === pregunta.createdAt){
+            questions.splice(indice,1,question);
+            console.log(questions[indice]);
+        }
+    });
+    res.status(201).json(question);
 });
 
 
