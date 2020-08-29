@@ -1,34 +1,32 @@
 //Imports 
 const express = require('express');
-const Debug = require('debug');
-const { findUserByEmail,comparePassWords } = require('../resources/functions');
+const { findUserByEmail,comparePassWords,createToken} = require('../resources/functions');
 const response = require('../resources/response');
-const { secret } = require('../resources/example');
-const jwt = require('jsonwebtoken');
+const { users } = require('../resources/example');
 //Instancias
 const router = express.Router();
-const debug = new Debug('OverFlow:auth');
 
 
+router.get('/',(req,res) => {
+    response.succes(res,200,users);
+})
 
-router.post('/login',(req,res,next) => {
+router.post('/login',(req,res) => {
     const { email,password } = req.body;
     const user = findUserByEmail(email);
 
     if(user === null || user === undefined){
-        debug(`user with email ${email} not found`);
         return response.error(res,401,{ message:'Email and Password Dont match'});
     }
 
     if(!comparePassWords(password,user.password)){
-        debug(`password ${password} not match`);
         return response.error(res,401,{ message:'Password is incorrect'});
     }
 
     //Primer parametro, el objeto del usuario para encriptar esa informacion
     //Segundo parametro clave que va a usar para encriptar la informacion
     //Tercer parametro opciones extra para la encriptacion mandadas en un json.
-    const token = jwt.sign({ user },secret,{ expiresIn:86400});
+    const token = createToken(user);
     response.succes(res,200,{
         message:'Login success',
         userId:user.id,
@@ -37,6 +35,29 @@ router.post('/login',(req,res,next) => {
         email:user.email,
         token:token
     })
+});
+
+router.post('/register',(req,res) => {
+    const { firstName,lastName,email,password } = req.body;
+    const user = {
+        id:+new Date(),
+        firstName:firstName,
+        lastName: lastName,
+        email: email,
+        password:password
+    }
+    users.push(user);
+    const token = createToken(user);
+
+    response.succes(res,201,{
+        message:`Usuario ${user.id} creado exitosamente`,
+        token:token,
+        userId:user.id,
+        firstName:firstName,
+        lastName: lastName,
+        email: email,
+        password:user.password
+    });
 });
 
 

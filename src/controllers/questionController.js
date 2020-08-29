@@ -1,7 +1,7 @@
 const express = require('express');
 const { questions } = require('../resources/example');
-const { questionMiddleWare,userMiddleWare } = require('../common/middleWares')
-
+const { questionMiddleWare,userMiddleWare } = require('../common/middleWares');
+const response = require('../resources/response');
 const router = express.Router();
 
 router.get('/',(req,res) => {
@@ -20,7 +20,7 @@ router.post('/create',userMiddleWare,(req,res) => {
     pregunta.respuestas = [];
     questions.unshift(pregunta);
 
-    res.status(201).json(pregunta);
+    response.succes(res,201,pregunta);
 })
 
 router.post('/:id/respuestas',questionMiddleWare,userMiddleWare,(req,res) => {
@@ -34,7 +34,7 @@ router.post('/:id/respuestas',questionMiddleWare,userMiddleWare,(req,res) => {
             questions.splice(indice,1,question);
         }
     });
-    res.status(201).json(question);
+    response.succes(res,201,questions);
 });
 
 
