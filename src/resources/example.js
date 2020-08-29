@@ -9,7 +9,8 @@ const question = {
         firstName: 'Sergio David',
         lastName: 'Paez Suarez',
         email: 'spaezsuarez@gmail.com',
-        password: '123456'
+        password: '123456',
+        id:1
     }
 
 };
@@ -18,7 +19,8 @@ const currentUser = {
     email: 'spaezsuarez@gmail.com',
     password: '123456',
     firstName: 'Sergio David',
-    lastName: 'Paez Suarez'
+    lastName: 'Paez Suarez',
+    id:1
 }
 
 const users = [{

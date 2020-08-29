@@ -13,9 +13,9 @@ const debug = new Debug('OverFlow:auth');
 
 router.post('/login',(req,res,next) => {
     const { email,password } = req.body;
-    const user = findUserByEmail(email) || null;
+    const user = findUserByEmail(email);
 
-    if(user === null){
+    if(user === null || user === undefined){
         debug(`user with email ${email} not found`);
         response.error(res,401,{ message:'Email and Password Dont match'});
     }
@@ -34,7 +34,8 @@ router.post('/login',(req,res,next) => {
         userId:user.id,
         firstName:user.firstName,
         lastName:user.lastName,
-        email:user.email
+        email:user.email,
+        token:token
     })
 });
 
