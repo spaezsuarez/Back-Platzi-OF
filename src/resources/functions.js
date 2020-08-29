@@ -4,8 +4,8 @@ const findUserByEmail = (email) => {
     return users.find(user => user.email === email);
 }
 
-const comparePassWords = (password) => {
-    return users.find(user => user.password === password);
+const comparePassWords = (possiblePassword,password) => {
+        return password === possiblePassword;
 }
 
 module.exports = {

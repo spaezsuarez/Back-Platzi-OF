@@ -17,12 +17,12 @@ router.post('/login',(req,res,next) => {
 
     if(user === null || user === undefined){
         debug(`user with email ${email} not found`);
-        response.error(res,401,{ message:'Email and Password Dont match'});
+        return response.error(res,401,{ message:'Email and Password Dont match'});
     }
 
-    if(!comparePassWords(password)){
+    if(!comparePassWords(password,user.password)){
         debug(`password ${password} not match`);
-        response.error(res,401,{ message:'Password is incorrect'});
+        return response.error(res,401,{ message:'Password is incorrect'});
     }
 
     //Primer parametro, el objeto del usuario para encriptar esa informacion
