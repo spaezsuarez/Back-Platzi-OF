@@ -32,7 +32,6 @@ router.post('/:id/respuestas',questionMiddleWare,userMiddleWare,(req,res) => {
     questions.forEach((pregunta,indice) => {
         if(question.createdAt === pregunta.createdAt){
             questions.splice(indice,1,question);
-            console.log(questions[indice]);
         }
     });
     res.status(201).json(question);

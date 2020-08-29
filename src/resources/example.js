@@ -21,6 +21,22 @@ const currentUser = {
     lastName: 'Paez Suarez'
 }
 
+const users = [{
+    email: 'spaezsuarez@gmail.com',
+    password: '123456',
+    firstName: 'Sergio David',
+    lastName: 'Paez Suarez',
+    id:1
+},{
+    email: 'ejemplo@mail.com',
+    password: '123456',
+    firstName: 'Miguel Angel',
+    lastName: 'Paez Suarez',
+    id:2
+}];
+
+const secret = 'mySecret'
+
 const questions = [question];
 
-module.exports = { questions, currentUser};
+module.exports = { questions, currentUser,users,secret};

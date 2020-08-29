@@ -5,6 +5,8 @@ api_rest, que mediante el uso de los metodos del protocolo http modifica la base
 
 `https://github.com/spaezsuarez/Front-Platzi-OF`
 
+**Aclaraciòn actualmente en este back-end se esta manejando datos sin persistirlos por lo que si ven cosas que no sean consideradas como muy buenas practicas, o simplemente estupidas estas se cambiaran a futuro**
+
 ## Installation
 
 Tener instalado NodeJS y el gestor de dependencias de npm, una vez descargado es ejecutar el siguiente comando:
