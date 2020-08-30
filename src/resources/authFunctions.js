@@ -1,4 +1,5 @@
-const { users , secret} = require('../resources/example');
+const { users } = require('./dumyData');
+const secret = require('../private/secret');
 const jwt = require('jsonwebtoken');
 
 const findUserByEmail = (email) => {

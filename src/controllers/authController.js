@@ -1,8 +1,8 @@
 //Imports 
 const express = require('express');
-const { findUserByEmail,comparePassWords,createToken} = require('../resources/functions');
 const response = require('../resources/response');
-const { users } = require('../resources/example');
+const { users } = require('../resources/dumyData');
+const { findUserByEmail,comparePassWords,createToken} = require('../resources/authFunctions');
 //Instancias
 const router = express.Router();
 

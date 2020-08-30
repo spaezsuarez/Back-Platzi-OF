@@ -1,4 +1,4 @@
-const { questions , currentUser } = require('../resources/example');
+const { questions } = require('../resources/dumyData');
 
 function questionMiddleWare(req,res,next){
     let id = req.params.id;
@@ -6,13 +6,12 @@ function questionMiddleWare(req,res,next){
     next();
 }
 
-function userMiddleWare(req,res,next){
-    req.user = currentUser;
+function questionsMiddleWare(req,res,next){
+    req.questions = questions;
     next();
 }
 
-
 module.exports = {
     questionMiddleWare,
-    userMiddleWare
+    questionsMiddleWare
 }

@@ -1,18 +1,19 @@
 const express = require('express');
-const { questions } = require('../resources/example');
-const { questionMiddleWare,userMiddleWare } = require('../common/middleWares');
+const { questions } = require('../resources/dumyData');
+const { required } = require('../middleWares/authMiddleWare');
+const { questionMiddleWare,questionsMiddleWare } = require('../middleWares/questionMiddleWare');
 const response = require('../resources/response');
 const router = express.Router();
 
-router.get('/',(req,res) => {
-    res.status(200).json({questions});
+router.get('/',questionsMiddleWare,(req,res) => {
+    res.status(200).json({data:req.questions});
 });
 
 router.get('/detail/:id',questionMiddleWare,(req,res) => {
     res.status(200).json({data:req.question})
 });
 
-router.post('/create',userMiddleWare,(req,res) => {
+router.post('/create',required,(req,res) => {
     const pregunta = req.body;
     pregunta.id = +new Date();
     pregunta.user = req.user;
@@ -23,7 +24,7 @@ router.post('/create',userMiddleWare,(req,res) => {
     response.succes(res,201,pregunta);
 })
 
-router.post('/:id/respuestas',questionMiddleWare,userMiddleWare,(req,res) => {
+router.post('/:id/respuestas',required,questionMiddleWare,(req,res) => {
     const answer = req.body;
     const question = req.question;
     answer.createdAt = new Date();
