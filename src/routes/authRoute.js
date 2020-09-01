@@ -34,7 +34,7 @@ router.post('/login',(req,res) => {
         lastName:user.lastName,
         email:user.email,
         token:token
-    })
+    });
 });
 
 router.post('/register',(req,res) => {

@@ -1,9 +1,12 @@
 const bodyParser = require('body-parser');
+const db = require('./db');
 
 module.exports = (server) => {
 
     server.use(bodyParser.urlencoded({extended:true}));
     server.use(bodyParser.json());
+
+    db.start();
 
     if(process.env.NODE_ENV === 'development'){
         server.use((req,res,next) => {
