@@ -1,27 +1,27 @@
-const { questions } = require('../resources/dumyData');
 const QuestionController = require('../controllers/questionController');
 
 let controller = new QuestionController();
 
-function  questionMiddleWare(req,res,next){
+async function questionMiddleWare(req, res, next) {
     let id = req.params.id;
-    //req.question = questions.find(question => question.id === +id);
-    req.question = controller.get(id);
+    req.question = await controller.get(id);
     next();
 }
 
-async function questionsMiddleWare(req,res,next){
-    try {
-        const questions = await controller.getAll();
-        req.questions = controller.getAll();
-    } catch (error) {
-        throw new Error(error);
-    }
-    
+async function questionsMiddleWare(req, res, next) {
+    req.questions = await controller.getAll();
+    next();
+}
+
+async function qustionCreationMidlleWare(req,res,next){
+    const { _id } = req.body.user;
+    req.body.user = _id;
+    await controller.create(req.body);
     next();
 }
 
 module.exports = {
     questionMiddleWare,
-    questionsMiddleWare
+    questionsMiddleWare,
+    qustionCreationMidlleWare
 }

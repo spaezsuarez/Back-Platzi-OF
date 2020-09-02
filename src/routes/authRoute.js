@@ -1,63 +1,49 @@
 //Imports 
 const express = require('express');
 const response = require('../resources/response');
-const { users } = require('../resources/dumyData');
-const { findUserByEmail,comparePassWords,createToken} = require('../resources/authFunctions');
+const { comparePassWords } = require('../resources/authFunctions');
 //Instancias
 const router = express.Router();
+const { register,login} = require('../middleWares/authMiddleWare');
 
-
-router.get('/',(req,res) => {
-    response.succes(res,200,users);
-})
-
-router.post('/login',(req,res) => {
-    const { email,password } = req.body;
-    const user = findUserByEmail(email);
-
-    if(user === null || user === undefined){
+router.post('/login',login,(req,res) => {
+    
+    if(req.user === null || req.user === undefined){
         return response.error(res,401,{ message:'Email and Password Dont match'});
     }
 
-    if(!comparePassWords(password,user.password)){
+    if(!comparePassWords(req.body.password,req.user.password)){
         return response.error(res,401,{ message:'Password is incorrect'});
     }
 
-    //Primer parametro, el objeto del usuario para encriptar esa informacion
-    //Segundo parametro clave que va a usar para encriptar la informacion
-    //Tercer parametro opciones extra para la encriptacion mandadas en un json.
-    const token = createToken(user);
     response.succes(res,200,{
         message:'Login success',
-        userId:user.id,
-        firstName:user.firstName,
-        lastName:user.lastName,
-        email:user.email,
-        token:token
+        userId:req.user.id,
+        firstName:req.user.firstName,
+        lastName:req.user.lastName,
+        email:req.user.email,
+        token:req.user.token,
+        password:req.user.password
     });
 });
 
-router.post('/register',(req,res) => {
-    const { firstName,lastName,email,password } = req.body;
-    const user = {
-        id:+new Date(),
-        firstName:firstName,
-        lastName: lastName,
-        email: email,
-        password:password
-    }
-    users.push(user);
-    const token = createToken(user);
+router.post('/register',register,(req,res) => {
 
-    response.succes(res,201,{
-        message:`Usuario ${user.id} creado exitosamente`,
-        token:token,
-        userId:user.id,
-        firstName:firstName,
-        lastName: lastName,
-        email: email,
-        password:user.password
-    });
+    try{
+        response.succes(res,201,{
+            message:`Usuario creado exitosamente`,
+            token:req.token,
+            firstName:req.firstName,
+            lastName: req.lastName,
+            email: req.email,
+            password:req.password
+        });
+    }catch(err){
+        response.error(res,401,{ 
+            message:'Internal error',
+            error:err
+        });
+    }
 });
 
 

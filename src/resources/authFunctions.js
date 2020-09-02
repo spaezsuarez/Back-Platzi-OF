@@ -1,9 +1,11 @@
-const { users } = require('./dumyData');
 const secret = require('../private/secret');
 const jwt = require('jsonwebtoken');
+const AuthController = require('../controllers/authController');
+
+let controller = new AuthController();
 
 const findUserByEmail = (email) => {
-    return users.find(user => user.email === email);
+    return controller.getByEmail(email);
 }
 
 const comparePassWords = (possiblePassword,password) => {

@@ -2,12 +2,12 @@ const Question = require('../models/question');
 
 class QuestionController{
     async getAll(){
-        const data = await Question.find();
+        const data = await Question.find().populate('answer');
         return data;
     }
 
     async get(id){
-        const data = await Question.findOne({_id:id});
+        const data = await Question.findOne({_id:id}).populate('answer');
         return data;
         
     }
