@@ -1,7 +1,9 @@
 const secret = require('../private/secret');
 const { findUserByEmail,createToken} = require('../resources/authFunctions');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const response = require('../resources/response');
+const { encriptSteps } = require('../private/credentialsDB');
 const AuthController = require('../controllers/authController');
 
 let controller = new AuthController();
@@ -28,6 +30,11 @@ async function login(req,res,next){
 async function register(req,res,next){
     const token = createToken(req.body);
     req.body.token = token;
+
+    const steps = bcrypt.genSaltSync(encriptSteps);
+    const newPassword = bcrypt.hashSync(req.body.password,steps);
+    req.body.password = newPassword;
+
     await controller.createUser(req.body);
     next();
 }

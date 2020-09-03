@@ -1,6 +1,7 @@
 const secret = require('../private/secret');
 const jwt = require('jsonwebtoken');
 const AuthController = require('../controllers/authController');
+const bcrypt = require('bcrypt');
 
 let controller = new AuthController();
 
@@ -9,7 +10,7 @@ const findUserByEmail = (email) => {
 }
 
 const comparePassWords = (possiblePassword,password) => {
-    return password === possiblePassword;
+    return bcrypt.compareSync(possiblePassword,password);
 }
 
 const createToken = (user) => {
