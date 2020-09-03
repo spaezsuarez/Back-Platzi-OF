@@ -9,6 +9,10 @@ const findUserByEmail = (email) => {
     return controller.getByEmail(email);
 }
 
+const findByToken = (token) => {
+    return controller.getByToken(token);
+}
+
 const comparePassWords = (possiblePassword,password) => {
     return bcrypt.compareSync(possiblePassword,password);
 }
@@ -20,5 +24,6 @@ const createToken = (user) => {
 module.exports = {
     findUserByEmail,
     comparePassWords,
-    createToken
+    createToken,
+    findByToken
 }

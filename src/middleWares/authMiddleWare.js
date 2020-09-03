@@ -1,5 +1,5 @@
 const secret = require('../private/secret');
-const { findUserByEmail,createToken} = require('../resources/authFunctions');
+const { findUserByEmail,createToken,findByToken } = require('../resources/authFunctions');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const response = require('../resources/response');
@@ -9,13 +9,14 @@ const AuthController = require('../controllers/authController');
 let controller = new AuthController();
 
 function required(req,res,next){
-    jwt.verify(req.query.token,secret,(error,token) => {
+    jwt.verify(req.query.token,secret,async (error,token) => {
         if(error){
             return response.error(res,401,{
                 message:`Unauthorized`,
                 error:`Error: ${error}`
             });
         }
+        req.user = await findByToken(req.query.token);
         next();
     })
 }

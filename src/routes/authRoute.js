@@ -39,7 +39,7 @@ router.post('/register',register,(req,res) => {
             password:req.password
         });
     }catch(err){
-        response.error(res,401,{ 
+        response.error(res,501,{ 
             message:'Internal error',
             error:err
         });

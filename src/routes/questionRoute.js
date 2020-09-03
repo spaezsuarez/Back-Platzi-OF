@@ -1,6 +1,6 @@
 const express = require('express');
 const { required } = require('../middleWares/authMiddleWare');
-const { questionMiddleWare, questionsMiddleWare, qustionCreationMidlleWare} = require('../middleWares/questionMiddleWare');
+const { questionMiddleWare, questionsMiddleWare, qustionCreationMiddleWare, answerCreationMiddleWare} = require('../middleWares/questionMiddleWare');
 const response = require('../resources/response');
 const router = express.Router();
 
@@ -31,19 +31,29 @@ router.get('/detail/:id',questionMiddleWare,(req, res) => {
     }
 });
 
-router.post('/create',required,qustionCreationMidlleWare,(req, res) => {
+router.post('/create',required,qustionCreationMiddleWare,(req, res) => {
 
     //await controller.create(req.body);
     response.succes(res, 201, `Pregunta creada`);
 
 })
 
-router.post('/:id/respuestas', required, questionMiddleWare, (req, res) => {
-    const answer = req.body;
-    const question = req.question;
-    answer.createdAt = new Date();
-    answer.user = req.user;
-   
+router.post('/:id/respuestas', required, questionMiddleWare,answerCreationMiddleWare, (req, res) => {
+    try{
+        response.succes(res,201,{
+            message:`Respuesta agregada`,
+            title:req.body.title,
+            description:req.body.description,
+            createdAt: req.body.createdAt      
+        });
+    }catch(err){
+        response.error(res,501,{ 
+            message:'Internal error',
+            error:err
+        });
+    }
+
+
 });
 
 
