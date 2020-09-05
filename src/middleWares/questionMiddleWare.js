@@ -21,7 +21,9 @@ async function answerCreationMiddleWare(req,res,next){
 
     req.body.question = questionId;
     req.body.user = userId;
-    await answerController.createAnswer(req.body);
+    const answer = await answerController.createAnswer(req.body);
+
+    questionController.updateAnswers(questionId,answer._id);
     next();
 
 }

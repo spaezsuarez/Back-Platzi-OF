@@ -11,6 +11,11 @@ class AuthController{
         const data = await User.findOne({email});
         return data;
     }
+
+    async getById(id){
+        const data = await User.findOne({_id:id});
+        return data;
+    }
     
     async getByToken(token){
         const data = await User.findOne({token});

@@ -9,14 +9,17 @@ const AuthController = require('../controllers/authController');
 let controller = new AuthController();
 
 function required(req,res,next){
-    jwt.verify(req.query.token,secret,async (error,token) => {
+
+    const inputToken = req.query.token;
+
+    jwt.verify(inputToken,secret,async (error,token) => {
         if(error){
             return response.error(res,401,{
                 message:`Unauthorized`,
                 error:`Error: ${error}`
             });
         }
-        req.user = await findByToken(req.query.token);
+        req.user = await findByToken(inputToken);
         next();
     })
 }

@@ -18,7 +18,7 @@ const comparePassWords = (possiblePassword,password) => {
 }
 
 const createToken = (user) => {
-    return jwt.sign({ user },secret,{ expiresIn:86400});
+    return jwt.sign({ user },secret);
 }
 
 module.exports = {

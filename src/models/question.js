@@ -7,7 +7,7 @@ const questionSchema = new Schema({
     createdAt: { type:Date, default:Date.now, required:true},
     icon:{type:String, required:true},
     user:{type:ObjectId, ref:'User',required:true},
-    answers:[{type:ObjectId, ref:'Answer'}]
+    answers:[{type:ObjectId, ref:'Answer',default:[]}]
 
 });
 
