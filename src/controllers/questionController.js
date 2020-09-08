@@ -2,7 +2,7 @@ const Question = require('../models/question');
 
 class QuestionController{
     async getAll(){
-        const data = await Question.find().populate('answers').populate('user').exec();
+        const data = await Question.find().populate('answers');
         return data;
     }
 

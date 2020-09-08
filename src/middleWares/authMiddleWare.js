@@ -43,8 +43,16 @@ async function register(req,res,next){
     next();
 }
 
+async function getName(req,res,next){
+    let data = await controller.getById(req.query.id);
+    let name = `${data.firstName} ${data.lastName}`;
+    req.name = name;
+    next();
+}
+
 module.exports = {
     required,
     register,
-    login
+    login,
+    getName
 }

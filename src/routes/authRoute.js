@@ -4,7 +4,7 @@ const response = require('../resources/response');
 const { comparePassWords } = require('../resources/authFunctions');
 //Instancias
 const router = express.Router();
-const { register,login} = require('../middleWares/authMiddleWare');
+const { register,login,getName } = require('../middleWares/authMiddleWare');
 
 router.post('/login',login,(req,res) => {
     
@@ -43,6 +43,17 @@ router.post('/register',register,(req,res) => {
             message:'Internal error',
             error:err
         });
+    }
+});
+
+router.get('/name',getName,(req,res) => {
+    if(req.name === undefined || req.name === null){
+        response.error(res,404,{
+            message:'Usuario no identificado',
+            name:'anonimo'
+        });
+    }else{
+        response.succes(res,200,{name:req.name});
     }
 });
 
